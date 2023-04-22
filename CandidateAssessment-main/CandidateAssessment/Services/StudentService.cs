@@ -12,6 +12,13 @@ namespace CandidateAssessment.Services
             _dbContext = dbContext;
         }
 
+        public async Task<Student> CreateStudent(Student student)
+        {
+            _dbContext.Students.Add(student);
+            await _dbContext.SaveChangesAsync();
+            return student;
+        }
+
         public IEnumerable<Student> GetStudents()
         {
             return _dbContext.Students

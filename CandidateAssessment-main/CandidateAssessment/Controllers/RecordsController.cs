@@ -11,13 +11,16 @@ namespace CandidateAssessment.Controllers
         private StudentService _studentService;
         private SchoolService _schoolService;
         private StudentOrganizationsService _studentOrganizationsService;
+        private OrgAssignmentService _organAssignmentService;
         public RecordsController(StudentService studentService, 
                                  SchoolService schoolService, 
-                                 StudentOrganizationsService studentOrganizationsService)
+                                 StudentOrganizationsService studentOrganizationsService,
+                                 OrgAssignmentService orgAssignmentService)
         {
             _studentService = studentService;
             _schoolService = schoolService;
             _studentOrganizationsService = studentOrganizationsService;
+            _organAssignmentService = orgAssignmentService;
         }
 
         public IActionResult Students()
@@ -37,11 +40,27 @@ namespace CandidateAssessment.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveStudent(Student model)
+        public async Task<ActionResult<Student>> SaveStudent(Student model)
         {
             // replace this code with code that actually saves the model
+            var newStudent = await _studentService.CreateStudent(model);
 
+            foreach (int org in newStudent.SelectedOrgs)
+            {
+                await SaveOrgAssignment(org, newStudent.StudentId);
+            }
+
+            //return CreatedAtAction(nameof(Students), new { StudentId = newStudent.StudentId}, newStudent);
             return RedirectToAction("Students");
+        }
+
+        public async Task<ActionResult<OrgAssignment>> SaveOrgAssignment(int studentOrgId, int studentId)
+        {
+            OrgAssignment tmpOrg = new OrgAssignment { StudentOrgId = studentOrgId, StudentId = studentId};
+
+            var newOrgAssignment = await _organAssignmentService.CreateOrgAssignment(tmpOrg);
+
+            return newOrgAssignment;
         }
 
         private List<SelectListItem> CreateAgeList()

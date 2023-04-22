@@ -14,6 +14,7 @@ builder.Services.AddDbContext<CandidateAssessmentContext>(options =>
 builder.Services.AddScoped<StudentService>();
 builder.Services.AddScoped<SchoolService>();
 builder.Services.AddScoped<StudentOrganizationsService>();
+builder.Services.AddScoped<OrgAssignmentService>();
 
 
 var app = builder.Build();
