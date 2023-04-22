@@ -56,8 +56,14 @@ namespace CandidateAssessment.Controllers
 
         private List<SelectListItem> CreateSchoolDropdownList()
         {
-            // replace this code with code to grab the schools and create a List<SelectListItem> object from them.
-            return new List<SelectListItem> { new SelectListItem { Text = "Replace this code", Value = "" } };
+            var schools = _schoolService.GetSchools();
+            var schoolList = new List<SelectListItem>();
+            foreach (School school in schools)
+            {
+                schoolList.Add(new SelectListItem { Text = school.Name, Value = school.SchoolId.ToString() });
+            }
+
+            return schoolList;
         }
 
         private MultiSelectList CreateStudentOrgDropdown()
