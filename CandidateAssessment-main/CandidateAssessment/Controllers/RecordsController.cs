@@ -10,10 +10,14 @@ namespace CandidateAssessment.Controllers
     {
         private StudentService _studentService;
         private SchoolService _schoolService;
-        public RecordsController(StudentService studentService, SchoolService schoolService)
+        private StudentOrganizationsService _studentOrganizationsService;
+        public RecordsController(StudentService studentService, 
+                                 SchoolService schoolService, 
+                                 StudentOrganizationsService studentOrganizationsService)
         {
             _studentService = studentService;
             _schoolService = schoolService;
+            _studentOrganizationsService = studentOrganizationsService;
         }
 
         public IActionResult Students()
@@ -58,6 +62,7 @@ namespace CandidateAssessment.Controllers
         {
             var schools = _schoolService.GetSchools();
             var schoolList = new List<SelectListItem>();
+
             foreach (School school in schools)
             {
                 schoolList.Add(new SelectListItem { Text = school.Name, Value = school.SchoolId.ToString() });
@@ -68,16 +73,15 @@ namespace CandidateAssessment.Controllers
 
         private MultiSelectList CreateStudentOrgDropdown()
         {
-            // replace this code with code to grab the student orgs and create a List<SelectListItem> object from them.
-            var options = new List<SelectListItem>
-            {
-                new SelectListItem { Text = "Option 1", Value = "1" },
-                new SelectListItem { Text = "Option 2", Value = "2" },
-                new SelectListItem { Text = "Option 3", Value = "3" },
-                new SelectListItem { Text = "Option 4", Value = "4" }
-            };
+            var options = _studentOrganizationsService.GetOrganizations();
+            var optionsList = new List<SelectListItem>();
 
-            return new MultiSelectList(options, "Value", "Text");
+            foreach (StudentOrganization org in options)
+            {
+                optionsList.Add(new SelectListItem { Text = org.OrgName, Value = org.Id.ToString() });
+            }
+
+            return new MultiSelectList(optionsList, "Value", "Text");
         }
     }
 }
