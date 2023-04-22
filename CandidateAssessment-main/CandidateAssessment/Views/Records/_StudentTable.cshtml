@@ -4,6 +4,7 @@
     <thead>
         <tr>
             <th>Name</th>
+            <th>School</th>
             <th>Email</th>
             <th>Age</th>
             <th>Student Orgs</th>
@@ -12,25 +13,31 @@
     <tbody>
         @foreach (var student in Model)
         {
-            <tr>
-                <td>@student.LastName, @student.FirstName</td>
-                <td>@student.Email</td>
-                <td>@student.Age</td>
-                <td>
-                    @if (student.OrgAssignments.Any())
-                    {
-                        <text>
-                            @Html.Raw(
-                                string.Join("<br/>", @student.OrgAssignments.Select(oa => oa.StudentOrg.OrgName))
-                            )
-                        </text>
-                    }
-                    else
-                    {
-                        <text>None</text>
-                    }
-                </td>
-            </tr>
+            if (student.FirstName == null) { }
+
+            else
+            {
+                <tr>
+                    <td>@student.LastName, @student.FirstName</td>
+                    <td>@student.School.Name</td>
+                    <td>@student.Email</td>
+                    <td>@student.Age</td>
+                    <td>
+                        @if (student.OrgAssignments.Any())
+                        {
+                            <text>
+                                @Html.Raw(
+                                    string.Join("<br/>", @student.OrgAssignments.Select(oa => oa.StudentOrg.OrgName))
+                                )
+                            </text>
+                        }
+                        else
+                        {
+                            <text>None</text>
+                        }
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>
