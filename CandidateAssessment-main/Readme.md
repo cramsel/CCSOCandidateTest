@@ -2,16 +2,7 @@
 ## Description
 The app saved to this repository is a very simple application tracking imaginary students enrolled in a small set of schools. Both the students and schools have basic data fields assigned to them. There is a one-to-many relationship between the students and schools which should be represented in the front end tables.
 
-## Instructions
-1. Download the zip file of this code. 
-2. Unzip locally and open in Visual Studio. This should work in both Windows and Mac versions of Visual Studio 2022.
-3. Email christian.whiting@ccsheriff.org to receive the database connection string. The information in the connection string should also allow you to connect to a database explorer (the Server Explorer tool in Visual Studio or the Azure Data Studio application would work well for exploring the dataset).
-4. Complete the tasks outlined below. 
-5. Once completed, push your code to your own public repository and send the link to christian.whiting@ccsheriff.org and charles.martinez@ccsheriff.org.
-
-
-
-## Tasks 
+## Initial Tasks (Completed as of 4/24/23)
 If you have any questions about the following tasks, please email christian.whiting@ccsheriff.org.
 
 1. **Add the School column to the Student table** - Display which school each student is attending in the front end student table. 
