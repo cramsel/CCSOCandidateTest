@@ -1,5 +1,6 @@
 ﻿using CandidateAssessment.Models;
 using CandidateAssessment.Services;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
@@ -39,10 +40,18 @@ namespace CandidateAssessment.Controllers
             return View(model);
         }
 
+        public IActionResult SchoolStudents()
+        {
+            string tmpUrl = Request.GetDisplayUrl();
+            tmpUrl = tmpUrl.Split('/').Last();
+            int schoolIdUrl = Int32.Parse(tmpUrl);
+            var model = _studentService.GetStudents().Where(s => s.SchoolId == schoolIdUrl);
+            return View(model);
+        }
+
         [HttpPost]
         public async Task<ActionResult<Student>> SaveStudent(Student model)
         {
-            // replace this code with code that actually saves the model
             var newStudent = await _studentService.CreateStudent(model);
 
             foreach (int org in newStudent.SelectedOrgs)
@@ -50,7 +59,6 @@ namespace CandidateAssessment.Controllers
                 await SaveOrgAssignment(org, newStudent.StudentId);
             }
 
-            //return CreatedAtAction(nameof(Students), new { StudentId = newStudent.StudentId}, newStudent);
             return RedirectToAction("Students");
         }
 

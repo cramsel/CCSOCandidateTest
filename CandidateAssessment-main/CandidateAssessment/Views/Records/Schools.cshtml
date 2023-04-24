@@ -18,7 +18,10 @@
                 <td>@school.Name</td>
                 <td>@school.City</td>
                 <td>@school.State</td>
-                <td><a href="#">@school.Students.Count</a></td>
+                <td><a href="@Url.Action("SchoolStudents","Records",new { id = school.SchoolId })">
+                        @school.Students.Count
+                    </a>
+                </td>
             </tr>
         }
     </tbody>
